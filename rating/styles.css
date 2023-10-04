@@ -1,0 +1,68 @@
+.header-block__header-select-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+#number-select {
+  display: block;
+  width: 150px;
+  height: 30px;
+  border-radius: 5px;
+}
+.quetes-rating {
+  margin: 50px;
+}
+
+.quetes-rating__list {
+  counter-reset: item;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quetes-rating__list li:before {
+  content: counter(item) ".";
+  display: inline-block;
+  counter-increment: item;
+  margin-right: 0.5em;
+}
+.quetes-rating__list li {
+  display: flex;
+  align-items: center;
+}
+
+.quetes-list__item-wrapper {
+  width: 90vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ratting-btn {
+  background-color: transparent;
+  border: none;
+}
+
+.ratting-btn img {
+  min-width: 20px;
+  min-height: 20px;
+  max-width: 20px;
+  max-height: 20px;
+}
+
+.ratting-btn :hover {
+  -webkit-transform: translateY(-5px);
+  transform: translateY(-5px);
+}
+
+@media screen and (max-width: 1000px) {
+  quetes-list__item-wrapper {
+    gap: 10px;
+  }
+  .quetes-list__item-wrapper {
+    width: auto;
+  }
+}

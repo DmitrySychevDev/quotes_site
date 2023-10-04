@@ -1,0 +1,38 @@
+.categories {
+  margin: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.cadegories__item {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  text-align: center;
+  width: 30%;
+}
+.cadegories__item-title {
+  font-size: 24px;
+}
+.categories-links__link a {
+  font-size: 14px;
+  color: #ff4500;
+}
+
+.categories-links__link a:hover {
+  color: #ffffff;
+}
+
+@media screen and (max-width: 700px) {
+  .cadegories__item {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .cadegories__item {
+    width: auto;
+  }
+}
