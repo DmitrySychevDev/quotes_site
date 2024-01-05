@@ -23,7 +23,7 @@ const clearSearch = () => {
 
 const incrementRating = (id) => {
   return async () => {
-    await fetch("http://localhost/quotient/addRating/", {
+    await fetch("http://localhost/addRating/", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -68,8 +68,9 @@ clearSearchButton.addEventListener("click", clearSearch);
 inputSelect.addEventListener("change", (e) => {
   const selectedValue = e.target.value;
 
-  const url = window.location.href.split("?");
-  const newUrl = url[0] + "?" + "q=" + selectedValue;
+  const url = window.location.href.split('/');
+  url[url.length-1] = selectedValue
+  const newUrl = url.join('/')
 
   window.location.href = newUrl;
 });
@@ -85,7 +86,8 @@ window.addEventListener("load", () => {
   const urlParams = new URLSearchParams(window.location.search);
 
   // Получаем значение параметра "q"
-  const qValue = urlParams.get("q");
+  const route = window.location.href.split('/');
+  const qValue = +route[route.length-1];
   if (qValue) {
     inputSelect.value = qValue;
   } else {

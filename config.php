@@ -1,5 +1,5 @@
 <?php
-$BASE_URL='http://'.$_SERVER['HTTP_HOST'].'/quotient';
+$BASE_URL='http://'.$_SERVER['HTTP_HOST'];
 $DB_USER='root';
 $DB_PASSWORD='';
 $DB_HOST='localhost';

@@ -12,6 +12,7 @@ class Controller
         include 'db.php';
         include 'model.php';
         include 'view.php';
+
         ini_set('display_errors', 0);
         $db = new Database($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_NAME);
 

@@ -6,16 +6,16 @@ function renderLinks($pageParam)
 {
   echo '<div class="navbar__links" id="menu">';
   echo '<div class="navbar_link' . ($pageParam === 'main' ? ' navbar__link_active' : '') . '">';
-  echo '<a href="http://localhost/quotient" title="Главная страница">Главная</a>';
+  echo '<a href="http://localhost" title="Главная страница">Главная</a>';
   echo '</div>';
   echo '<div class="navbar_link' . ($pageParam === 'kategories' || $pageParam === "kategory" ? ' navbar__link_active' : '') . '">';
-  echo '<a  href="http://localhost/quotient/categories" title="Страница категорий">Категории</a>';
+  echo '<a  href="http://localhost/categories" title="Страница категорий">Категории</a>';
   echo '</div>';
   echo '<div class="navbar_link' . ($pageParam === 'rating' ? ' navbar__link_active' : '') . '">';
-  echo '<a href="http://localhost/quotient/rating" title="Страница рейтинга">Рейтинг</a>';
+  echo '<a href="http://localhost/rating/quantity/5" title="Страница рейтинга">Рейтинг</a>';
   echo '</div>';
   echo '<div class="navbar_link' . ($pageParam === 'authors' || $pageParam === "author" ? ' navbar__link_active' : '') . '">';
-  echo '<a href="http://localhost/quotient/authors" title="Страница авторов">Авторы</a>';
+  echo '<a href="http://localhost/authors" title="Страница авторов">Авторы</a>';
   echo '</div>';
   echo '</div>';
 }

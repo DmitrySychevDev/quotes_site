@@ -17,19 +17,19 @@
 <body>
   <?php
   $page = "kategories";
-  include "../header.php";
+  include "header.php";
   ?>
   <main>
     <section class="categories">
       <?php
-      include '../controller.php';
+      include 'controller.php';
       $controller = Controller::getInstance();
       $controller->get_categories_page();
       ?>
     </section>
   </main>
   <?php
-  include "../footer.php";
+  include "footer.php";
   ?>
   <script src="../assets/js/index.js"></script>
 </body>

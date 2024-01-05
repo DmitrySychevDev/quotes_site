@@ -30,12 +30,13 @@ class Model
         $sql = 'SELECT ki.name AS category_name, ki.image AS category_image, 
         ( SELECT q.quote FROM quote AS q WHERE q.fk_kategory_item_id = ki.id LIMIT 1 ) AS category_quote 
         FROM kategory AS k JOIN kategory_item AS ki ON k.id = ki.fk_kategory_id WHERE k.id = 3';
-
+        
         $data = $this->get_rows_from_sql($sql);
 
         foreach ($data as &$value) {
-            $value['category_image'] = $this->BASE_URL . '/assets/images/' . $value['category_image'] . '.jpg';
+            $value['category_image'] = $this->BASE_URL . '/assets/images/' . $value['category_image'];
         }
+
         unset($value);
 
         return $data;
@@ -143,7 +144,7 @@ class Model
         $data = $this->get_rows_from_sql($sql);
         if (!empty($data)) {
             foreach ($data as &$value) {
-                $value['image'] = $this->BASE_URL . '/assets/images/' . $value['image'] . '.jpg';
+                $value['image'] = $this->BASE_URL . '/assets/images/' . $value['image'] ;
             }
             unset($value);
             return $data;
@@ -154,7 +155,7 @@ class Model
 
             $data = $this->get_rows_from_sql($sql);
             if (!empty($data)) {
-                $data[0]['image'] = $this->BASE_URL . '/assets/images/' . $data[0]['image'] . '.jpg';
+                $data[0]['image'] = $this->BASE_URL . '/assets/images/' . $data[0]['image'] ;
             }
 
             return $data[0];

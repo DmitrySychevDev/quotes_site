@@ -8,7 +8,7 @@
   <meta name="description"
     content="Исследуйте различных авторов цитат на нашем цитатном сайте. На странице авторов вы найдете цитаты, приписываемые конкретным авторам. Узнайте мнения и мудрые мысли знаменитых личностей и вдохновитесь их словами.">
   <link rel="stylesheet" href="../assets/css/nulling-style.css" />
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="../authors/styles.css" />
   <link rel="stylesheet" href="../assets/css/utils.css" />
   <link rel="icon" type="image/png" href="../assets/images/logo.png" sizes="20x20">
   <title>Авторы</title>
@@ -17,18 +17,18 @@
 <body>
   <?php
   $page = 'authors';
-  include "../header.php"
+  include "header.php"
     ?>
   <main>
 
     <?php
-    include '../controller.php';
+    include 'controller.php';
     $controller = Controller::getInstance();
     $controller->get_authors_page();
     ?>
   </main>
   <?php
-  include "../footer.php"
+  include "footer.php"
     ?>
   <script src="../assets/js/index.js"></script>
   <script src="../assets/js/authors.js"></script>

@@ -32,7 +32,7 @@
             <div class="cadegories__item-links">';
       foreach ($category['items'] as $cadegoriesItem) {
         echo '<div class="categories-links__link">
-                <a href="' . $this->BASE_URL . '/category?id=' . $cadegoriesItem['id'] . '" title="' . $cadegoriesItem['name'] . '">' . $cadegoriesItem['name'] . '</a>
+                <a href="' . $this->BASE_URL . '/category/' . $cadegoriesItem['id'] . '" title="' . $cadegoriesItem['name'] . '">' . $cadegoriesItem['name'] . '</a>
               </div>';
       }
 
@@ -64,7 +64,7 @@
               <img src="' . $author['image'] . '" alt="uthor"/>
             </div>
             <div class="author-block__text">
-              <h2 class="text__title"><a href="' . $this->BASE_URL . '/author?id=' . $author['id'] . '" title="' . $author['name'] . '">' . $author['name'] . '</a>' . '</h2>
+              <h2 class="text__title"><a href="' . $this->BASE_URL . '/author/' . $author['id'] . '" title="' . $author['name'] . '">' . $author['name'] . '</a>' . '</h2>
               <p class="text__description">
                ' . $author['description'] . '
               </p>
