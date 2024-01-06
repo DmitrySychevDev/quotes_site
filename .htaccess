@@ -1,8 +1,9 @@
 RewriteEngine On
 
-
 # Перенаправление на index.php, если файл или директория не существуют
+RewriteCond %{REQUEST_URI} !^/admin [NC]
 RewriteCond %{REQUEST_URI}  !(\.png|\.jpg|\.webp|\.gif|\.jpeg|\.zip|\.css|\.svg|\.js|\.pdf)$
 RewriteRule (.*) routes.php [QSA,L]
 # Перенаправление на error.php при ошибке 404
+
 
