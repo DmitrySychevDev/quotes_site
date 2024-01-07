@@ -21,31 +21,43 @@
         <div class="heading-wrapper">
           <h2 class="heading">Список цитат</h2>
           <div>
-            <a href="/quotes/new/">
-              <button type="button" class="btn btn-outline-info btn-sm">Добавить цитату</button>
+            <a href="/quotes/new/index.html">
+              <button type="button" class="btn btn-outline-info btn-sm">
+                Добавить цитату
+              </button>
             </a>
           </div>
-
         </div>
         <form>
           <div class="search-wrapper">
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Поиск цитат" />
-            <button type="button" class="btn btn-primary">Поиск</button>
+            <input type="text" class="form-control" id="search_input__quotes" placeholder="Поиск авторов" />
+            <button type="button" id="search__button__quotes" class="btn btn-primary">Поиск</button>
           </div>
+
         </form>
         <div class="quotes-container">
-          <ol class="quetes-rating__list" start="1">
-            <?php
-            include(__DIR__ . "/../controller.php");
+          <div class="search-deascription">
+            <p id="descritption-info_text">
+            </p>
 
-            $controller = Controller::getInstance();
-            echo 'test';
-            $controller->get_quotes_for_admin();
-            ?>
-          </ol>
+            <div id="descritption-info__clear">Очистить поиск</div>
+          </div>
+          <div class="quotes-container">
+
+            <ol class="quetes-rating__list quotes-list" start="1">
+              <?php
+              include(__DIR__ . "/../controller.php");
+
+              $controller = Controller::getInstance();
+              $controller->get_quotes_for_admin();
+              ?>
+            </ol>
+          </div>
         </div>
       </div>
     </div>
+    <script src="/admin/assets/js/quotes.js"></script>
+
 </body>
 
 </html>

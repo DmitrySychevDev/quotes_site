@@ -9,6 +9,8 @@ ini_set('display_errors', 1);
 // ##################################################
 
 get('/admin', './index.php');
+get('/admin/categories','categories/index.php');
+get('/admin/authors','/authors/index.php');
 // Static GET
 // In the URL -> http://localhost
 // The output -> Index

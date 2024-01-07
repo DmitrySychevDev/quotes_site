@@ -14,7 +14,7 @@
       <a href="<?php echo $BASE_URL.'/admin/categories/'?>" class="nav-link sidebar-link  <?php echo $page === 'categories' ? ' active' : ''; ?>"> Категории </a>
     </li>
     <li>
-      <a href="<?php echo $BASE_URL.'/admin/authors/'?>/" class="nav-link sidebar-link <?php echo $page === 'authors' ? ' active' : ''; ?>"> Авторы </a>
+      <a href="<?php echo $BASE_URL.'/admin/authors/'?>" class="nav-link sidebar-link <?php echo $page === 'authors' ? ' active' : ''; ?>"> Авторы </a>
     </li>
   </ul>
   <hr />

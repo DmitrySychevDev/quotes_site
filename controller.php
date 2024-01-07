@@ -42,8 +42,14 @@ class Controller
 
     public function get_categories_page()
     {
-        $data = $this->model->get_kategories();
+        $data = $this->model->get_categories();
         $this->view->render_categories($data);
+    }
+
+    public function get_categories_page_for_admin()
+    {
+        $data = $this->model->get_categories();
+        $this->adminView->render_categories_data($data);
     }
 
     public function get_rating_page_data($quantity)
@@ -69,6 +75,11 @@ class Controller
     {
         $data = $this->model->get_authors();
         $this->view->render_authors($data);
+    }
+
+    public function get_authors_page_for_admin(){
+        $data = $this->model->get_authors();
+        $this->adminView->render_authors_data($data);
     }
 
     public function getAuthorDetails($id)

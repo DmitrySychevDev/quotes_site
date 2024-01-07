@@ -50,7 +50,7 @@ class Model
         return $data;
     }
 
-    public function get_kategories()
+    public function get_categories()
     {
         $sql = 'SELECT k.name AS category_name, ki.name AS category_item_name, ki.id AS category_item_id
         FROM kategory AS k
