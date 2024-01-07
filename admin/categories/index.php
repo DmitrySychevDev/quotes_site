@@ -47,6 +47,8 @@
                 </div>
             </div>
         </div>
+        <script src="/admin/assets/js/categories.js"></script>
+
 </body>
 
 </html>

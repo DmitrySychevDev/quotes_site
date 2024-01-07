@@ -12,13 +12,13 @@
     public function render_quotes_info($data)
     {
         foreach ($data as $quote) {
-            echo ' <li class="quetes-list__quete">
-          <div class="quetes-list__item-wrapper">
+            echo ' <li class="quetes-list__quete" data-quote-id="' . $quote['id'] . '">
+          <div class="quetes-list__item-wrapper ">
             <p class="quote__text">
             ' . $quote['quote'] . '
             </p>
             <div class="rating-btn-wrapper">
-              <button class="ratting-btn" id="btn-' . $quote['id'] . '">
+              <button class="ratting-btn" id="btn-' . $quote['id'] . '" data-quote-id="' . $quote['id'] . '">
                 <img src="' . $this->BASE_URL . '/admin/assets/icons/cross.svg" alt="trash" />
               </button>
             </div>
@@ -33,11 +33,11 @@
             echo '  <ol class="quetes-rating__list" start="1">
             <h3>' . $category['category'] . '</h3>';
             foreach ($category['items'] as $categoriesItem) {
-                echo '<li class="quetes-list__quete">
+                echo '<li class="quetes-list__quete" data-category-id="' . $categoriesItem['id'] . '">
                 <div class="quetes-list__item-wrapper">
                   <p>' . $categoriesItem['name'] . '</p>
                   <div class="rating-btn-wrapper">
-                    <button class="ratting-btn" id="btn-' . $categoriesItem['id'] . '">
+                    <button class="ratting-btn" id="btn-' . $categoriesItem['id'] . '" data-category-id="' . $categoriesItem['id'] . '">
                       <img src="' . $this->BASE_URL . '/admin/assets/icons/cross.svg" alt="trash" />
                     </button>
                   </div>

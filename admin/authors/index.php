@@ -15,7 +15,7 @@
 
     <div class="page-wrapper">
         <?php
-        $page = 'quotes';
+        $page = 'authors';
         include("./sidebar.php");
         ?>
         <div class="page-content-wrapper">
