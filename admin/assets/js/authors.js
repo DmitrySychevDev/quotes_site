@@ -42,3 +42,55 @@ const search = () => {
 
 searchButton.addEventListener("click", search);
 clearSearchButton.addEventListener("click", clearSearch);
+
+// Логика удаления цитаты
+
+const deleteAuthorFromPage = (id) => {
+    for (let i = 0; i < sourceAuthors.length; i++) {
+      const authorBlock = sourceAuthors[i].closest('.author-block')
+      const quoteId = authorBlock.getAttribute('data-author-id')
+      if (quoteId === id) {
+        authorBlock.parentNode.removeChild(authorBlock);
+        break
+      }
+    }
+  }
+
+function deleteQuote(authorId) {
+  fetch('http://localhost/admin/author/delete', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ authorId: +authorId }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    })
+    .then((data) => {
+        deleteAuthorFromPage(authorId)
+        alert('Удаление автора произошло успешно')
+    })
+    .catch((error) => {
+      console.log(error)
+      deleteAuthorFromPage(authorId)
+      alert('Произошла ошибка при удалении')
+    })
+}
+
+const deleteButtons = document.querySelectorAll('.ratting-btn')
+deleteButtons.forEach(function (button) {
+  button.addEventListener('click', function (e) {
+    console.log('click')
+    const authorId = this.getAttribute('data-author-id')
+    const confirmDelete = confirm('Вы уверены, что хотите удалить цитату?')
+
+    if (confirmDelete) {
+      // Отправка запроса на удаление цитаты по ID
+      deleteQuote(authorId)
+    }
+  })
+})

@@ -53,11 +53,11 @@
     {
         foreach ($data as $author) {
             echo '
-            <li class="quetes-list__quete author-block">
+            <li class="quetes-list__quete author-block" data-author-id="' . $author['id'] . '">
             <div class="quetes-list__item-wrapper author-container">
               <p class="author__name">' . $author['name'] . '</p>
               <div class="rating-btn-wrapper">
-                <button class="ratting-btn" id="btn-' . $author['id'] . '">
+                <button class="ratting-btn" id="btn-' . $author['id'] . '" data-author-id="' . $author['id'] . '">
                   <img src="' . $this->BASE_URL . '/admin/assets/icons/cross.svg" alt="trash" />
                 </button>
               </div>
