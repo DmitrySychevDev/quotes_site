@@ -265,6 +265,22 @@ class Model
 
     }
 
+    public function delete_quote($id){
+        $sql = 'DELETE FROM quote WHERE id = ? ;';
+        $params = array($id);
+        $this->execute_delete($sql, $params);
+        return $this->conn->affected_rows > 0;
+
+    }
+
+    public function delete_category($id){
+        $sql = 'DELETE FROM kategory_item WHERE id = ? ;';
+        $params = array($id);
+        $this->execute_delete($sql, $params);
+        return $this->conn->affected_rows > 0;
+
+    }
+
     public function updateRating($id)
     {
         $sql = 'SELECT * FROM quote WHERE id= ? ;';

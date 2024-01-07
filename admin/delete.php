@@ -2,18 +2,19 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Content-Type: application/json');
 
-    include(__DIR__ . "/../../controller.php");
+    // Получите идентификатор цитаты из запроса
+
+    include(__DIR__ . "/../controller.php");
 
     $postData = file_get_contents("php://input");
     $postParams = $putParams = json_decode($postData, true);
 
-    $authorId = $postParams['authorId'];
+    $quoteId = $postParams['quoteId'];
 
-    if ($authorId && is_numeric($authorId)) {
+    if ($quoteId && is_numeric($quoteId)) {
 
         $controller = Controller::getInstance();
-        $controller->delete_author($authorId);
-
+        $controller->delete_quote($quoteId);
     } else {
         http_response_code(400);
     }

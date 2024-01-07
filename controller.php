@@ -89,6 +89,30 @@ class Controller
         echo json_encode(['message' => 'Автор был успешно удален']);
     }
 
+    public function delete_quote($id){
+        $isDeleted = $this->model->delete_quote($id);
+        if($isDeleted){
+            http_response_code(400);
+            echo json_encode(['message' => 'Цитата не была удалена']);
+            return;
+        }
+
+        http_response_code(200);
+        echo json_encode(['message' => 'Цитата была успешно удалена']);
+    }
+
+    public function delete_category($id){
+        $isDeleted = $this->model->delete_category($id);
+        if($isDeleted){
+            http_response_code(400);
+            echo json_encode(['message' => 'Категория не была удалена']);
+            return;
+        }
+
+        http_response_code(200);
+        echo json_encode(['message' => 'Категория была успешно удалена']);
+    }
+
     public function get_authors_page_for_admin(){
         $data = $this->model->get_authors();
         $this->adminView->render_authors_data($data);

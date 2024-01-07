@@ -12,6 +12,8 @@ get('/admin', './index.php');
 get('/admin/categories','categories/index.php');
 get('/admin/authors','/authors/index.php');
 post('/admin/author/delete','/authors/delete.php');
+post('/admin/quote/delete','/delete.php');
+post('/admin/categories/delete','/categories/delete.php');
 // Static GET
 // In the URL -> http://localhost
 // The output -> Index

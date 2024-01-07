@@ -24,7 +24,7 @@ function deleteCategory(categoryId) {
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error('Network response was not ok')
+        alert('Произошла ошибка при удалении')
       }
       return response.json()
     })
