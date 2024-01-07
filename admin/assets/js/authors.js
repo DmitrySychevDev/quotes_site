@@ -72,12 +72,11 @@ function deleteQuote(authorId) {
     })
     .then((data) => {
         deleteAuthorFromPage(authorId)
-        alert('Удаление автора произошло успешно')
+        alert(data.message)
     })
     .catch((error) => {
       console.log(error)
-      deleteAuthorFromPage(authorId)
-      alert('Произошла ошибка при удалении')
+      alert(error.message)
     })
 }
 
@@ -86,7 +85,7 @@ deleteButtons.forEach(function (button) {
   button.addEventListener('click', function (e) {
     console.log('click')
     const authorId = this.getAttribute('data-author-id')
-    const confirmDelete = confirm('Вы уверены, что хотите удалить цитату?')
+    const confirmDelete = confirm('Вы уверены, что хотите удалить автора ? Это приведет к удалению всех его цитат!')
 
     if (confirmDelete) {
       // Отправка запроса на удаление цитаты по ID

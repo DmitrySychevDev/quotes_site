@@ -11,6 +11,47 @@ class Model
         $this->BASE_URL = $BASE_URL;
     }
 
+    private function execute_delete($sql, $params = array())
+    {
+        $stmt = $this->conn->prepare($sql);
+    
+        if ($stmt === false) {
+            // Обработка ошибки подготовки запроса
+            return false;
+        }
+    
+        if (!empty($params)) {
+            $types = ''; // Строка для хранения типов параметров
+            $bindParams = array();
+    
+            foreach ($params as $param) {
+                if (is_int($param)) {
+                    $types .= 'i'; // 'i' для integer
+                } elseif (is_float($param)) {
+                    $types .= 'd'; // 'd' для double/float
+                } else {
+                    $types .= 's'; // 's' для string
+                }
+    
+                $bindParams[] = &$param; // Создание массива для bind_param
+            }
+    
+            array_unshift($bindParams, $types);
+            call_user_func_array(array($stmt, 'bind_param'), $bindParams);
+        }
+    
+        $result = $stmt->execute();
+    
+        if ($result === false) {
+            // Обработка ошибки выполнения запроса
+            $stmt->close();
+            return false;
+        }
+    
+        $stmt->close();
+        return true;
+    }
+
     private function get_rows_from_sql($sql, $params = array())
     {
         $stmt = $this->conn->prepare($sql);
@@ -213,6 +254,14 @@ class Model
         }
 
 
+
+    }
+
+    public function delete_author($id){
+        $sql = 'DELETE FROM author WHERE id = ? ;';
+        $params = array($id);
+        $this->execute_delete($sql, $params);
+        return $this->conn->affected_rows > 0;
 
     }
 

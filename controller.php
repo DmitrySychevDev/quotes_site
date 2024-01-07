@@ -15,8 +15,8 @@ class Controller
         include 'model.php';
         include 'view.php';
         include __DIR__ .'/admin/views/view.php';
-
         ini_set('display_errors', 0);
+
         $db = new Database($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_NAME);
 
         $this->conn = $db->connect();
@@ -75,6 +75,18 @@ class Controller
     {
         $data = $this->model->get_authors();
         $this->view->render_authors($data);
+    }
+
+    public function delete_author($id){
+        $isDeleted = $this->model->delete_author($id);
+        if($isDeleted){
+            http_response_code(400);
+            echo json_encode(['message' => 'Автор не был удален']);
+            return;
+        }
+
+        http_response_code(200);
+        echo json_encode(['message' => 'Автор был успешно удален']);
     }
 
     public function get_authors_page_for_admin(){

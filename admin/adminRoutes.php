@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/router.php';
 
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 // ##################################################
 // ##################################################
@@ -11,6 +11,7 @@ ini_set('display_errors', 1);
 get('/admin', './index.php');
 get('/admin/categories','categories/index.php');
 get('/admin/authors','/authors/index.php');
+post('/admin/author/delete','/authors/delete.php');
 // Static GET
 // In the URL -> http://localhost
 // The output -> Index
