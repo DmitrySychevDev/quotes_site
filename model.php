@@ -11,27 +11,65 @@ class Model
         $this->BASE_URL = $BASE_URL;
     }
 
-    private function get_rows_from_sql($sql)
+    private function get_rows_from_sql($sql, $params = array())
     {
-        $result = $this->conn->query($sql);
-        $data = [];
+        $stmt = $this->conn->prepare($sql);
 
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $data[] = $row;
-            }
+        if ($stmt === false) {
+            // Обработка ошибки подготовки запроса
+            return false;
         }
-        return $data;
 
+        if (!empty($params)) {
+            $types = ''; // Строка для хранения типов параметров
+            $bindParams = array();
+
+            foreach ($params as $param) {
+                if (is_int($param)) {
+                    $types .= 'i'; // 'i' для integer
+                } elseif (is_float($param)) {
+                    $types .= 'd'; // 'd' для double/float
+                } else {
+                    $types .= 's'; // 's' для string
+                }
+
+                $bindParams[] = &$param; // Создание массива для bind_param
+            }
+
+            array_unshift($bindParams, $types);
+            call_user_func_array(array($stmt, 'bind_param'), $bindParams);
+        }
+
+        $result = $stmt->execute();
+
+        if ($result === false) {
+            // Обработка ошибки выполнения запроса
+            $stmt->close();
+            return false;
+        }
+
+        $result = $stmt->get_result();
+
+        $data = array();
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        $stmt->close();
+        return $data;
     }
 
     public function get_main_data()
     {
         $sql = 'SELECT ki.name AS category_name, ki.image AS category_image, 
         ( SELECT q.quote FROM quote AS q WHERE q.fk_kategory_item_id = ki.id LIMIT 1 ) AS category_quote 
-        FROM kategory AS k JOIN kategory_item AS ki ON k.id = ki.fk_kategory_id WHERE k.id = 3';
-        
-        $data = $this->get_rows_from_sql($sql);
+        FROM kategory AS k JOIN kategory_item AS ki ON k.id = ki.fk_kategory_id WHERE k.id = ?';
+
+        $params = array(3);
+
+        $data = $this->get_rows_from_sql($sql,$params);
+
+
 
         foreach ($data as &$value) {
             $value['category_image'] = $this->BASE_URL . '/assets/images/' . $value['category_image'];
@@ -39,13 +77,13 @@ class Model
 
         unset($value);
 
+
         return $data;
     }
 
     public function get_quotes()
     {
         $sql = 'SELECT * FROM quote';
-        
         $data = $this->get_rows_from_sql($sql);
         return $data;
     }
@@ -97,8 +135,9 @@ class Model
 
     public function get_rating($quantity)
     {
-        $sql = 'SELECT q.id, q.quote AS quote, q.rating, a.name AS author FROM quote as q JOIN author as a ON a.id=q.fk_author_id ORDER BY q.rating  DESC LIMIT ' . $quantity . ';';
-        return $this->get_rows_from_sql($sql);
+        $sql = 'SELECT q.id, q.quote AS quote, q.rating, a.name AS author FROM quote as q JOIN author as a ON a.id=q.fk_author_id ORDER BY q.rating  DESC LIMIT ? ;';
+        $params = array($quantity);
+        return $this->get_rows_from_sql($sql,$params);
     }
 
     public function get_authors()
@@ -120,8 +159,10 @@ class Model
         $sql = "SELECT author.name, author.description, author.image, quote.quote
         FROM author
         JOIN quote ON author.id = quote.fk_author_id
-        WHERE author.id =" . $id;
-        $data = $this->get_rows_from_sql($sql);
+        WHERE author.id = ? ;";
+
+        $params = array($id);
+        $data = $this->get_rows_from_sql($sql,$params);
         if (!empty($data)) {
             foreach ($data as &$value) {
                 $value['image'] = $this->BASE_URL . '/assets/images/' . $value['image'] . '.jpg';
@@ -148,11 +189,13 @@ class Model
         $sql = "SELECT 	kategory_item.name,	kategory_item.description,	kategory_item.image, quote.quote
         FROM 	kategory_item
         JOIN quote ON kategory_item.id = quote.fk_kategory_item_id
-        WHERE kategory_item.id =" . $id;
-        $data = $this->get_rows_from_sql($sql);
+        WHERE kategory_item.id = ? ";
+
+        $params = array($id);
+        $data = $this->get_rows_from_sql($sql,$params);
         if (!empty($data)) {
             foreach ($data as &$value) {
-                $value['image'] = $this->BASE_URL . '/assets/images/' . $value['image'] ;
+                $value['image'] = $this->BASE_URL . '/assets/images/' . $value['image'];
             }
             unset($value);
             return $data;
@@ -163,7 +206,7 @@ class Model
 
             $data = $this->get_rows_from_sql($sql);
             if (!empty($data)) {
-                $data[0]['image'] = $this->BASE_URL . '/assets/images/' . $data[0]['image'] ;
+                $data[0]['image'] = $this->BASE_URL . '/assets/images/' . $data[0]['image'];
             }
 
             return $data[0];
@@ -175,8 +218,10 @@ class Model
 
     public function updateRating($id)
     {
-        $sql = 'SELECT * FROM quote WHERE id=' . $id;
-        $quote = $this->get_rows_from_sql($sql);
+        $sql = 'SELECT * FROM quote WHERE id= ? ;';
+
+        $params= array($id);
+        $quote = $this->get_rows_from_sql($sql,$params);
 
         if (empty($quote)) {
             $response = array(
