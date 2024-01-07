@@ -4,6 +4,8 @@ class Controller
     private $model;
     private $view;
     private $conn;
+
+    private $adminView;
     private static $instance;
 
     private function __construct()
@@ -12,6 +14,7 @@ class Controller
         include 'db.php';
         include 'model.php';
         include 'view.php';
+        include __DIR__ .'/admin/views/view.php';
 
         ini_set('display_errors', 0);
         $db = new Database($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_NAME);
@@ -19,6 +22,7 @@ class Controller
         $this->conn = $db->connect();
         $this->model = new Model($this->conn);
         $this->view = new View();
+        $this->adminView = new AdminView();  
     }
 
     public static function getInstance()
@@ -52,6 +56,12 @@ class Controller
         $data = $this->model->get_rating($quantity);
         $this->view->render_quotes_rating($data);
 
+    }
+
+    public function get_quotes_for_admin(){
+        $data = $this->model->get_quotes();
+
+        $this->adminView->render_quotes_info($data);
     }
 
 

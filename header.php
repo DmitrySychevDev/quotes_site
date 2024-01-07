@@ -1,21 +1,22 @@
 <?php
 
 include "config.php";
+ini_set('display_errors', 0);
 
-function renderLinks($pageParam)
+function renderLinks($pageParam, $BASE_URL)
 {
   echo '<div class="navbar__links" id="menu">';
   echo '<div class="navbar_link' . ($pageParam === 'main' ? ' navbar__link_active' : '') . '">';
-  echo '<a href="http://localhost" title="Главная страница">Главная</a>';
+  echo '<a href="'.$BASE_URL.'/'.'" title="Главная страница">Главная</a>';
   echo '</div>';
   echo '<div class="navbar_link' . ($pageParam === 'kategories' || $pageParam === "kategory" ? ' navbar__link_active' : '') . '">';
-  echo '<a  href="http://localhost/categories" title="Страница категорий">Категории</a>';
+  echo '<a  href="'.$BASE_URL.'/categories'.'" title="Страница категорий">Категории</a>';
   echo '</div>';
   echo '<div class="navbar_link' . ($pageParam === 'rating' ? ' navbar__link_active' : '') . '">';
-  echo '<a href="http://localhost/rating/quantity/5" title="Страница рейтинга">Рейтинг</a>';
+  echo '<a href="'.$BASE_URL.'/rating/quantity/5'.'" title="Страница рейтинга">Рейтинг</a>';
   echo '</div>';
   echo '<div class="navbar_link' . ($pageParam === 'authors' || $pageParam === "author" ? ' navbar__link_active' : '') . '">';
-  echo '<a href="http://localhost/authors" title="Страница авторов">Авторы</a>';
+  echo '<a href="'.$BASE_URL.'/authors'.'" title="Страница авторов">Авторы</a>';
   echo '</div>';
   echo '</div>';
 }
@@ -67,7 +68,7 @@ echo '<button class="logo_image--burger">
   alt="close"
 />
 </button>';
-renderLinks($page);
+renderLinks($page,$BASE_URL);
 echo '</nav>
      </div>';
 echo '

@@ -42,6 +42,14 @@ class Model
         return $data;
     }
 
+    public function get_quotes()
+    {
+        $sql = 'SELECT * FROM quote';
+        
+        $data = $this->get_rows_from_sql($sql);
+        return $data;
+    }
+
     public function get_kategories()
     {
         $sql = 'SELECT k.name AS category_name, ki.name AS category_item_name, ki.id AS category_item_id
