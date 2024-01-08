@@ -14,37 +14,35 @@ class Model
     private function execute_insert($sql, $params = array())
     {
         $stmt = $this->conn->prepare($sql);
-    
+
         if ($stmt === false) {
             // Обработка ошибки подготовки запроса
             return false;
         }
-    
+
         if (!empty($params)) {
             $types = ''; // Строка для хранения типов параметров
             $bindParams = array();
-    
+
             foreach ($params as $param) {
                 $types .= 's'; // Всегда приводим к строке
                 $bindParams[] = $param; // Просто добавляем параметры
             }
-    
+
             array_unshift($bindParams, $types);
             call_user_func_array(array($stmt, 'bind_param'), $bindParams);
         }
-    
+
         $result = $stmt->execute();
-    
+
         if ($result === false) {
             // Обработка ошибки выполнения запроса
             $error = $stmt->error;
             $sqlstate = $stmt->sqlstate;
             $stmt->close();
-            // Выводите или логируйте информацию об ошибке
-            echo "SQLSTATE: $sqlstate, Error: $error";
             return false;
         }
-    
+
         $stmt->close();
         return true;
     }
@@ -164,6 +162,12 @@ class Model
     public function get_quotes()
     {
         $sql = 'SELECT * FROM quote';
+        $data = $this->get_rows_from_sql($sql);
+        return $data;
+    }
+
+    public function get_categories_unit(){
+        $sql = 'SELECT * FROM kategory;';
         $data = $this->get_rows_from_sql($sql);
         return $data;
     }
@@ -326,10 +330,16 @@ class Model
         $category = (int) $category;
         $sql = 'INSERT INTO `quote` (`quote`, `fk_author_id`, `fk_kategory_item_id`) VALUES (?, ? , ?);';
         $params = array($text, $author, $category);
-        print_r($params);
         $this->execute_insert($sql, $params);
         return true;
     }
+
+    public function add_category($name, $description, $category, $image){
+        $sql = 'INSERT INTO `kategory_item` (`name`, `description`, `fk_kategory_id`, `image`) VALUES (?, ?,?, ?);';
+        $params = array($name, $description, $category, $image);
+        $this->execute_insert($sql, $params);
+        return true;
+    }   
 
     public function delete_category($id)
     {

@@ -123,6 +123,11 @@ class Controller
         $this->adminView->render_categories_options($data);
     }
 
+    public function get_category_unit_options(){
+        $data = $this->model->get_categories_unit();
+        $this->adminView->render_categories_unit_options($data);
+    }
+
     public function add_quote($category, $author, $text){
         $isAdded = $this->model->add_quote($category, $author, $text);
 
@@ -136,7 +141,17 @@ class Controller
         echo json_encode(['message' => 'Цитата не была добавленна']);
     }
 
-  
+    public function add_category($name, $description, $category, $image){
+        $isAdded = $this->model->add_category($name, $description, $category, $image);
+        if($isAdded){
+            http_response_code(200);
+            echo json_encode(['message' => 'Категория была успешно добавленна']);
+            return;
+        }
+
+        http_response_code(400);
+        echo json_encode(['message' => 'Категория не была добавленна']);
+    }  
 
     public function get_authors_page_for_admin(){
         $data = $this->model->get_authors();

@@ -63,6 +63,13 @@
 
     }
 
+    public function render_categories_unit_options($data){
+        foreach ($data as $category) {
+            echo '<option value="'.$category['id'].'">'.$category['name'].'</option>';
+        }
+
+    }
+
     public function render_authors_data($data)
     {
         foreach ($data as $author) {

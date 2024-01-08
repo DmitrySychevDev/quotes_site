@@ -53,3 +53,31 @@ deleteButtons.forEach(function (button) {
     }
   })
 })
+
+
+function addCategory(event) {
+    console.log(event)
+    event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+    // Получаем форму
+    const form = document.getElementById('categoryForm');
+
+    // Создаем объект FormData для удобства работы с формой и файлами
+    const formData = new FormData(form);
+
+    // Отправляем данные формы на сервер
+    fetch('http://localhost/admin/categories/add', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Обработка ответа от сервера, например, обновление интерфейса
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+document.getElementById('categoryForm').addEventListener('submit',addCategory)

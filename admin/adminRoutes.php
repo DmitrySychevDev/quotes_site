@@ -2,7 +2,6 @@
 
 require_once __DIR__ . '/router.php';
 
-ini_set('display_errors', 0);
 
 // ##################################################
 // ##################################################
@@ -16,6 +15,8 @@ post('/admin/quote/delete','/delete.php');
 post('/admin/categories/delete','/categories/delete.php');
 get('/admin/quotes/$id', '/editQuotes.php');
 post('/admin/quotes/add','/addQuote.php');
+get('/admin/categories/$id','/categories/editCategory.php');
+post('/admin/categories/add','/categories/addCategory.php');
 // Static GET
 // In the URL -> http://localhost
 // The output -> Index

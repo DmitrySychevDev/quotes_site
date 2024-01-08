@@ -22,7 +22,7 @@
                 <div class="heading-wrapper">
                     <h2 class="heading">Список категорий</h2>
                     <div>
-                        <a href="/categories/new/index.html">
+                        <a href="<?php echo $BASE_URL; ?>/admin/categories/new">
                             <button type="button" class="btn btn-outline-info btn-sm">
                                 Добавить категорию
                             </button>
