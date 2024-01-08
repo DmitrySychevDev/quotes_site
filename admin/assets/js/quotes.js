@@ -39,25 +39,25 @@ const search = () => {
   }
 }
 
-
-
-searchButton.addEventListener('click', search)
-clearSearchButton.addEventListener('click', clearSearch)
+if (searchButton && clearSearchButton) {
+  searchButton.addEventListener('click', search)
+  clearSearchButton.addEventListener('click', clearSearch)
+}
 
 // Логика удаления цитаты
 
 const deleteQuoteFromPage = (id) => {
-    console.log(id)
-    for (let i = 0; i < sourceAuthors.length; i++) {
-      const quoteBlock = sourceAuthors[i].closest('.quetes-list__quete')
-      const quoteId = quoteBlock.getAttribute('data-quote-id')
-      console.log(quoteId)
-      if (quoteId === id) {
-          quoteBlock.parentNode.removeChild(quoteBlock);
-        break
-      }
+  console.log(id)
+  for (let i = 0; i < sourceAuthors.length; i++) {
+    const quoteBlock = sourceAuthors[i].closest('.quetes-list__quete')
+    const quoteId = quoteBlock.getAttribute('data-quote-id')
+    console.log(quoteId)
+    if (quoteId === id) {
+      quoteBlock.parentNode.removeChild(quoteBlock)
+      break
     }
   }
+}
 
 function deleteQuote(quoteId) {
   // Используйте AJAX или другой метод для отправки запроса на сервер для удаления цитаты по ID
@@ -76,8 +76,8 @@ function deleteQuote(quoteId) {
       return response.json()
     })
     .then((data) => {
-        deleteQuoteFromPage(quoteId)
-        alert('Удаление цитаты произошло успешно')
+      deleteQuoteFromPage(quoteId)
+      alert('Удаление цитаты произошло успешно')
     })
     .catch((error) => {
       console.log(error)
@@ -86,15 +86,52 @@ function deleteQuote(quoteId) {
 }
 
 const deleteButtons = document.querySelectorAll('.ratting-btn')
-deleteButtons.forEach(function (button) {
-  button.addEventListener('click', function (e) {
-    console.log('click')
-    const quoteId = this.getAttribute('data-quote-id')
-    const confirmDelete = confirm('Вы уверены, что хотите удалить цитату?')
+if (deleteButtons.length) {
+  deleteButtons.forEach(function (button) {
+    button.addEventListener('click', function (e) {
+      console.log('click')
+      const quoteId = this.getAttribute('data-quote-id')
+      const confirmDelete = confirm('Вы уверены, что хотите удалить цитату?')
 
-    if (confirmDelete) {
-      // Отправка запроса на удаление цитаты по ID
-      deleteQuote(quoteId)
-    }
+      if (confirmDelete) {
+        // Отправка запроса на удаление цитаты по ID
+        deleteQuote(quoteId)
+      }
+    })
   })
-})
+}
+
+document
+  .getElementById('quoteForm')
+  .addEventListener('submit', function (event) {
+    console.log('submit')
+    event.preventDefault()
+
+    // Получение данных из формы
+    const category = document.querySelector(
+      '.form-select[name="category"]'
+    ).value
+    const author = document.querySelector('.form-select[name="author"]').value
+    const text = document.querySelector('.textarea').value
+
+    // Отправка данных на сервер
+    fetch('http://localhost/admin/quotes/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        category: category,
+        author: author,
+        text: text,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Обработка ответа от сервера, например, обновление интерфейса
+        console.log(data)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+  })

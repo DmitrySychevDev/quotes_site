@@ -11,7 +11,7 @@ class Model
         $this->BASE_URL = $BASE_URL;
     }
 
-    private function execute_delete($sql, $params = array())
+    private function execute_insert($sql, $params = array())
     {
         $stmt = $this->conn->prepare($sql);
     
@@ -25,15 +25,8 @@ class Model
             $bindParams = array();
     
             foreach ($params as $param) {
-                if (is_int($param)) {
-                    $types .= 'i'; // 'i' для integer
-                } elseif (is_float($param)) {
-                    $types .= 'd'; // 'd' для double/float
-                } else {
-                    $types .= 's'; // 's' для string
-                }
-    
-                $bindParams[] = &$param; // Создание массива для bind_param
+                $types .= 's'; // Всегда приводим к строке
+                $bindParams[] = $param; // Просто добавляем параметры
             }
     
             array_unshift($bindParams, $types);
@@ -44,10 +37,56 @@ class Model
     
         if ($result === false) {
             // Обработка ошибки выполнения запроса
+            $error = $stmt->error;
+            $sqlstate = $stmt->sqlstate;
             $stmt->close();
+            // Выводите или логируйте информацию об ошибке
+            echo "SQLSTATE: $sqlstate, Error: $error";
             return false;
         }
     
+        $stmt->close();
+        return true;
+    }
+
+    private function execute_delete($sql, $params = array())
+    {
+        $stmt = $this->conn->prepare($sql);
+
+        if ($stmt === false) {
+            // Обработка ошибки подготовки запроса
+            return false;
+        }
+
+        if (!empty($params)) {
+            $types = ''; // Строка для хранения типов параметров
+            $bindParams = array();
+
+            foreach ($params as $param) {
+                if (is_int($param)) {
+                    $types .= 'i'; // 'i' для integer
+                } elseif (is_float($param)) {
+                    $types .= 'd'; // 'd' для double/float
+                } else {
+                    $types .= 's'; // 's' для string
+                }
+
+                $bindParams[] = &$param; // Создание массива для bind_param
+            }
+
+            array_unshift($bindParams, $types);
+            call_user_func_array(array($stmt, 'bind_param'), $bindParams);
+        }
+
+        $result = $stmt->execute();
+
+        if ($result === false) {
+            // Обработка ошибки выполнения запроса
+
+            return false;
+        }
+
+
         $stmt->close();
         return true;
     }
@@ -108,7 +147,7 @@ class Model
 
         $params = array(3);
 
-        $data = $this->get_rows_from_sql($sql,$params);
+        $data = $this->get_rows_from_sql($sql, $params);
 
 
 
@@ -178,7 +217,7 @@ class Model
     {
         $sql = 'SELECT q.id, q.quote AS quote, q.rating, a.name AS author FROM quote as q JOIN author as a ON a.id=q.fk_author_id ORDER BY q.rating  DESC LIMIT ? ;';
         $params = array($quantity);
-        return $this->get_rows_from_sql($sql,$params);
+        return $this->get_rows_from_sql($sql, $params);
     }
 
     public function get_authors()
@@ -203,7 +242,7 @@ class Model
         WHERE author.id = ? ;";
 
         $params = array($id);
-        $data = $this->get_rows_from_sql($sql,$params);
+        $data = $this->get_rows_from_sql($sql, $params);
         if (!empty($data)) {
             foreach ($data as &$value) {
                 $value['image'] = $this->BASE_URL . '/assets/images/' . $value['image'] . '.jpg';
@@ -233,7 +272,7 @@ class Model
         WHERE kategory_item.id = ? ";
 
         $params = array($id);
-        $data = $this->get_rows_from_sql($sql,$params);
+        $data = $this->get_rows_from_sql($sql, $params);
         if (!empty($data)) {
             foreach ($data as &$value) {
                 $value['image'] = $this->BASE_URL . '/assets/images/' . $value['image'];
@@ -253,11 +292,17 @@ class Model
             return $data[0];
         }
 
-
-
     }
 
-    public function delete_author($id){
+    public function get_category_items()
+    {
+        $sql = 'SELECT * FROM kategory_item;';
+        $data = $this->get_rows_from_sql($sql);
+        return $data;
+    }
+
+    public function delete_author($id)
+    {
         $sql = 'DELETE FROM author WHERE id = ? ;';
         $params = array($id);
         $this->execute_delete($sql, $params);
@@ -265,7 +310,8 @@ class Model
 
     }
 
-    public function delete_quote($id){
+    public function delete_quote($id)
+    {
         $sql = 'DELETE FROM quote WHERE id = ? ;';
         $params = array($id);
         $this->execute_delete($sql, $params);
@@ -273,7 +319,20 @@ class Model
 
     }
 
-    public function delete_category($id){
+    public function add_quote($category, $author, $text)
+    {
+        $text = (string) $text;
+        $author = (int) $author;
+        $category = (int) $category;
+        $sql = 'INSERT INTO `quote` (`quote`, `fk_author_id`, `fk_kategory_item_id`) VALUES (?, ? , ?);';
+        $params = array($text, $author, $category);
+        print_r($params);
+        $this->execute_insert($sql, $params);
+        return true;
+    }
+
+    public function delete_category($id)
+    {
         $sql = 'DELETE FROM kategory_item WHERE id = ? ;';
         $params = array($id);
         $this->execute_delete($sql, $params);
@@ -285,8 +344,8 @@ class Model
     {
         $sql = 'SELECT * FROM quote WHERE id= ? ;';
 
-        $params= array($id);
-        $quote = $this->get_rows_from_sql($sql,$params);
+        $params = array($id);
+        $quote = $this->get_rows_from_sql($sql, $params);
 
         if (empty($quote)) {
             $response = array(

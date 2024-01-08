@@ -13,6 +13,8 @@
 <body>
   <div class="page-wrapper">
     <?php
+    include(__DIR__ . "/../config.php");
+
     $page = 'quotes';
     include("./sidebar.php");
     ?>
@@ -21,7 +23,7 @@
         <div class="heading-wrapper">
           <h2 class="heading">Список цитат</h2>
           <div>
-            <a href="/quotes/new/index.html">
+            <a href="<?php echo $BASE_URL; ?>/admin/quotes/new">
               <button type="button" class="btn btn-outline-info btn-sm">
                 Добавить цитату
               </button>

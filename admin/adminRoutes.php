@@ -14,6 +14,8 @@ get('/admin/authors','/authors/index.php');
 post('/admin/author/delete','/authors/delete.php');
 post('/admin/quote/delete','/delete.php');
 post('/admin/categories/delete','/categories/delete.php');
+get('/admin/quotes/$id', '/editQuotes.php');
+post('/admin/quotes/add','/addQuote.php');
 // Static GET
 // In the URL -> http://localhost
 // The output -> Index

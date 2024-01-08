@@ -113,6 +113,31 @@ class Controller
         echo json_encode(['message' => 'Категория была успешно удалена']);
     }
 
+    public function get_authors_options(){
+        $data = $this->model->get_authors();
+        $this->adminView->render_authors_options($data);
+    }
+
+    public function get_categories_options(){
+        $data = $this->model->get_category_items();
+        $this->adminView->render_categories_options($data);
+    }
+
+    public function add_quote($category, $author, $text){
+        $isAdded = $this->model->add_quote($category, $author, $text);
+
+        if($isAdded){
+            http_response_code(200);
+            echo json_encode(['message' => 'Цитата была успешно добавленна']);
+            return;
+        }
+
+        http_response_code(400);
+        echo json_encode(['message' => 'Цитата не была добавленна']);
+    }
+
+  
+
     public function get_authors_page_for_admin(){
         $data = $this->model->get_authors();
         $this->adminView->render_authors_data($data);

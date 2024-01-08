@@ -49,6 +49,20 @@
         }
     }
 
+    public function render_authors_options($data){
+        foreach ($data as $author) {
+            echo '<option value="'.$author['id'].'">'.$author['name'].'</option>';
+        }
+
+    }
+
+    public function render_categories_options($data){
+        foreach ($data as $category) {
+            echo '<option value="'.$category['id'].'">'.$category['name'].'</option>';
+        }
+
+    }
+
     public function render_authors_data($data)
     {
         foreach ($data as $author) {
