@@ -40,8 +40,10 @@ const search = () => {
   }
 };
 
+if(searchButton && clearSearchButton){
 searchButton.addEventListener("click", search);
 clearSearchButton.addEventListener("click", clearSearch);
+}
 
 // Логика удаления цитаты
 
@@ -93,3 +95,30 @@ deleteButtons.forEach(function (button) {
     }
   })
 })
+
+function addAuthor(event) {
+    console.log(event)
+    event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+    // Получаем форму
+    const form = document.getElementById('authorForm');
+
+    // Создаем объект FormData для удобства работы с формой и файлами
+    const formData = new FormData(form);
+
+    // Отправляем данные формы на сервер
+    fetch('http://localhost/admin/authors/add', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Обработка ответа от сервера, например, обновление интерфейса
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+document.getElementById('authorForm').addEventListener('submit',addAuthor)

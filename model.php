@@ -166,7 +166,8 @@ class Model
         return $data;
     }
 
-    public function get_categories_unit(){
+    public function get_categories_unit()
+    {
         $sql = 'SELECT * FROM kategory;';
         $data = $this->get_rows_from_sql($sql);
         return $data;
@@ -231,7 +232,7 @@ class Model
         $data = $this->get_rows_from_sql($sql);
 
         foreach ($data as &$value) {
-            $value['image'] = $this->BASE_URL . '/assets/images/' . $value['image'] . '.jpg';
+            $value['image'] = $this->BASE_URL . '/assets/images/' . $value['image'];
         }
         unset($value);
 
@@ -249,17 +250,19 @@ class Model
         $data = $this->get_rows_from_sql($sql, $params);
         if (!empty($data)) {
             foreach ($data as &$value) {
-                $value['image'] = $this->BASE_URL . '/assets/images/' . $value['image'] . '.jpg';
+                $value['image'] = $this->BASE_URL . '/assets/images/' . $value['image'];
             }
             unset($value);
         } else {
             $sql = "SELECT author.name, author.description, author.image
         FROM author
-        WHERE author.id =" . $id;
+        WHERE author.id = ?";
+            $params = array($id);
+            $data = $this->get_rows_from_sql($sql, $params);
 
 
             if (!empty($data)) {
-                $data[0]['image'] = $this->BASE_URL . '/assets/images/' . $data[0]['image'] . '.jpg';
+                $data[0]['image'] = $this->BASE_URL . '/assets/images/' . $data[0]['image'];
             }
 
             return $data[0];
@@ -286,9 +289,10 @@ class Model
         } else {
             $sql = "SELECT 	kategory_item.name,	kategory_item.description,	kategory_item.image
                     FROM 	kategory_item
-                    WHERE kategory_item.id =" . $id;
+                    WHERE kategory_item.id = ?";
+            $params = array($id);
 
-            $data = $this->get_rows_from_sql($sql);
+            $data = $this->get_rows_from_sql($sql,$params);
             if (!empty($data)) {
                 $data[0]['image'] = $this->BASE_URL . '/assets/images/' . $data[0]['image'];
             }
@@ -334,12 +338,20 @@ class Model
         return true;
     }
 
-    public function add_category($name, $description, $category, $image){
+    public function add_category($name, $description, $category, $image)
+    {
         $sql = 'INSERT INTO `kategory_item` (`name`, `description`, `fk_kategory_id`, `image`) VALUES (?, ?,?, ?);';
         $params = array($name, $description, $category, $image);
         $this->execute_insert($sql, $params);
         return true;
-    }   
+    }
+    public function add_author($name, $description, $image)
+    {
+        $sql = 'INSERT INTO `author` (`name`, `description`, `image`) VALUES (?,?, ?);';
+        $params = array($name, $description, $image);
+        $this->execute_insert($sql, $params);
+        return true;
+    }
 
     public function delete_category($id)
     {

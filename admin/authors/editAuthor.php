@@ -25,28 +25,20 @@
 
         ?>
         <div class="page-content">
-            <h2 class="heading">Добавление категории</h2>
-            <form class="form" method="POST" enctype="multipart/form-data" id="categoryForm">
+            <h2 class="heading">Добавление Автора</h2>
+            <form class="form" method="POST" enctype="multipart/form-data" id="authorForm">
                 <div>
-                    <label class="form-label label">Категория цитаты</label>
-                    <select name="category" class="form-select" aria-placeholder="Выберите категорию цитаты" required>
-                        <?php
-                        $controller->get_category_unit_options();
-                        ?>
-                    </select>
-                </div>
-                <div>
-                    <label class="form-label label">Название категории</label>
-                    <input type="text" class="form-control" placeholder="Введите название категории" name="name" required />
+                    <label class="form-label label">Имя автора</label>
+                    <input type="text" class="form-control" placeholder="Введите имя автора" name="name" required />
                 </div>
                 <div>
                     <label class="form-label label">Описание категории</label>
                     <textarea class="form-control textarea" id="exampleFormControlTextarea1" name="description" rows="3"
-                        placeholder="Введите описание категории" required></textarea>
+                        placeholder="Введите описание автора" required></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="formFile" class="form-label label" name="image">Выберите изображение категории</label>
-                    <input name="image" class="form-control" type="file" id="formFile" accept=".jpg" required>
+                    <label for="formFile" class="form-label label" name="image">Выберите изображение автора</label>
+                    <input name="image" class="form-control" type="file" id="formFile" accept=".jpg, .png, .jpeg" required>
                 </div>
                 <div class="submit-wrapper">
                     <button type="submit" class="btn btn-primary">Добавить</button>
@@ -55,7 +47,7 @@
             <div class="quotes-container"></div>
         </div>
     </div>
-    <script src="/admin/assets/js/categories.js"></script>
+    <script src="/admin/assets/js/authors.js"></script>
 
 </body>
 

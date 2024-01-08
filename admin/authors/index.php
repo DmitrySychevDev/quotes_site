@@ -24,7 +24,7 @@
                 <div class="heading-wrapper">
                     <h2 class="heading">Авторы цитат</h2>
                     <div>
-                        <a href="/authors/new/">
+                        <a href="<?php echo $BASE_URL; ?>/admin/authors/new">
                             <button type="button" class="btn btn-outline-info btn-sm">
                                 Добавить автора
                             </button>

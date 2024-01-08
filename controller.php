@@ -153,6 +153,19 @@ class Controller
         echo json_encode(['message' => 'Категория не была добавленна']);
     }  
 
+    public function add_author($name, $description, $image){
+        $isAdded = $this->model->add_author($name, $description, $image);
+        if($isAdded){
+            http_response_code(200);
+            echo json_encode(['message' => 'Автор был успешно добавлен']);
+            return;
+        }
+
+        http_response_code(400);
+        echo json_encode(['message' => 'Автор не был добавлен']);
+    }  
+
+    
     public function get_authors_page_for_admin(){
         $data = $this->model->get_authors();
         $this->adminView->render_authors_data($data);
