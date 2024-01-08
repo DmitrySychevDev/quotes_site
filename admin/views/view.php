@@ -17,10 +17,19 @@
             <p class="quote__text">
             ' . $quote['quote'] . '
             </p>
-            <div class="rating-btn-wrapper">
-              <button class="ratting-btn" id="btn-' . $quote['id'] . '" data-quote-id="' . $quote['id'] . '">
-                <img src="' . $this->BASE_URL . '/admin/assets/icons/cross.svg" alt="trash" />
-              </button>
+            <div class="buttons-wrapper">
+                <div class="rating-btn-wrapper">
+                  <button class="control">
+                   <a href="'.$this->BASE_URL.'/admin/quotes/'.$quote['id'].'">
+                     <img src="' . $this->BASE_URL . '/admin/assets/icons/pen.svg" />
+                   </a>
+                  </button>
+                </div>
+                <div class="rating-btn-wrapper">
+                  <button class="ratting-btn" id="btn-' . $quote['id'] . '" data-quote-id="' . $quote['id'] . '">
+                    <img src="' . $this->BASE_URL . '/admin/assets/icons/cross.svg" alt="trash" />
+                  </button>
+                </div>
             </div>
           </div>
         </li>';
@@ -49,16 +58,17 @@
         }
     }
 
-    public function render_authors_options($data){
+    public function render_authors_options($data, $selectedId = null){
         foreach ($data as $author) {
-            echo '<option value="'.$author['id'].'">'.$author['name'].'</option>';
+            $selected = ($selectedId !== null && $author['id'] == $selectedId) ? 'selected' : '';
+            echo '<option value="'.$author['id'].'" ' . $selected . '>'.$author['name'].'</option>';
         }
-
     }
 
-    public function render_categories_options($data){
+    public function render_categories_options($data, $selectedId = null){
         foreach ($data as $category) {
-            echo '<option value="'.$category['id'].'">'.$category['name'].'</option>';
+            $selected = ($selectedId !== null && $category['id'] == $selectedId) ? 'selected' : '';
+            echo '<option value="'.$category['id'].'"'.$selected.'>'.$category['name'].'</option>';
         }
 
     }

@@ -103,15 +103,8 @@ class Model
             $bindParams = array();
 
             foreach ($params as $param) {
-                if (is_int($param)) {
-                    $types .= 'i'; // 'i' для integer
-                } elseif (is_float($param)) {
-                    $types .= 'd'; // 'd' для double/float
-                } else {
-                    $types .= 's'; // 's' для string
-                }
-
-                $bindParams[] = &$param; // Создание массива для bind_param
+                $types .= 's'; // Всегда приводим к строке
+                $bindParams[] = $param; // Просто добавляем параметры
             }
 
             array_unshift($bindParams, $types);
@@ -271,6 +264,26 @@ class Model
 
     }
 
+    public function get_quote_by_id($id)
+    {
+        $sql = 'SELECT * FROM quote WHERE id = ? ;';
+        $params = array($id);
+        $data = $this->get_rows_from_sql($sql, $params);
+        return $data;
+    }
+
+    public function update_quote($id, $category, $author, $text)
+    {
+        $sql = "UPDATE quote
+        SET  fk_kategory_item_id =? , fk_author_id =?, quote = ?
+        WHERE id = ?";
+        $params = array($category, $author, $text,$id);
+        $this->execute_insert($sql, $params);
+        return true;
+
+
+    }
+
     public function getCategoryData($id)
     {
         $sql = "SELECT 	kategory_item.name,	kategory_item.description,	kategory_item.image, quote.quote
@@ -292,7 +305,7 @@ class Model
                     WHERE kategory_item.id = ?";
             $params = array($id);
 
-            $data = $this->get_rows_from_sql($sql,$params);
+            $data = $this->get_rows_from_sql($sql, $params);
             if (!empty($data)) {
                 $data[0]['image'] = $this->BASE_URL . '/assets/images/' . $data[0]['image'];
             }

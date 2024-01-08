@@ -21,17 +21,27 @@
         $page = 'quotes';
         include("./sidebar.php");
 
-
-
+        $isNew = $id === "new";
+        $quote = array();
+        if (!$isNew) {
+            $quote = $controller->get_quote_by_id($id)[0];
+        }
         ?>
         <div class="page-content">
             <h2 class="heading">Добавление цитаты</h2>
-            <form class="form" method="POST" id="quoteForm" >
+            <form class="form" method="POST" id="quoteForm" <?php if (!$isNew) {
+                echo 'data-quote-id="' . $quote["id"] . '"';
+            } ?>>
                 <div>
                     <label class="form-label label">Категория цитаты</label>
                     <select name="category" class="form-select" aria-placeholder="Выберите категорию цитаты" required>
                         <?php
-                        $controller->get_categories_options();
+                        if ($isNew) {
+                            $controller->get_categories_options();
+                        } else {
+                            $controller->get_categories_options($quote['fk_kategory_item_id']);
+
+                        }
                         ?>
                     </select>
                 </div>
@@ -39,14 +49,22 @@
                     <label class="form-label label">Автор цитаты</label>
                     <select name="author" class="form-select" aria-placeholder="Выберите автора цитаты" required>
                         <?php
-                        $controller->get_authors_options();
+                        if ($isNew) {
+                            $controller->get_authors_options();
+                        } else {
+                            $controller->get_authors_options($quote['fk_author_id']);
+
+                        }
                         ?>
                     </select>
                 </div>
                 <div>
                     <label class="form-label label">Текст цитаты</label>
                     <textarea name="text" class="form-control textarea" id="exampleFormControlTextarea1" rows="3"
-                        placeholder="Введите текст цитаты" required></textarea>
+                        placeholder="Введите текст цитаты" required><?php
+                        if (!$isNew) {
+                            echo $quote["quote"];
+                        } ?></textarea>
                 </div>
                 <div class="submit-wrapper">
                     <button type="submit" class="btn btn-primary">Добавить</button>
@@ -55,8 +73,13 @@
             <div class="quotes-container"></div>
         </div>
     </div>
-    <script src="/admin/assets/js/quotes.js"></script>
-
+    <?php
+    if ($isNew) {
+        echo '<script src="/admin/assets/js/quotes.js"></script>';
+    } else {
+        echo '<script src="/admin/assets/js/quoteEdit.js"></script>';
+    }
+    ?>
 </body>
 
 </html>

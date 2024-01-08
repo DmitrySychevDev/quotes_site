@@ -113,14 +113,14 @@ class Controller
         echo json_encode(['message' => 'Категория была успешно удалена']);
     }
 
-    public function get_authors_options(){
+    public function get_authors_options($selectedId = null){
         $data = $this->model->get_authors();
-        $this->adminView->render_authors_options($data);
+        $this->adminView->render_authors_options($data,$selectedId);
     }
 
-    public function get_categories_options(){
+    public function get_categories_options($selectedId = null){
         $data = $this->model->get_category_items();
-        $this->adminView->render_categories_options($data);
+        $this->adminView->render_categories_options($data,$selectedId);
     }
 
     public function get_category_unit_options(){
@@ -169,6 +169,23 @@ class Controller
     public function get_authors_page_for_admin(){
         $data = $this->model->get_authors();
         $this->adminView->render_authors_data($data);
+    }
+
+    public function get_quote_by_id($id){
+        $data = $this->model->get_quote_by_id($id);
+        return $data;
+    } 
+
+    public function edit_quote($quoteId,$category, $author, $text){
+        $isEdited = $this->model->update_quote($quoteId,$category, $author, $text);
+        if($isEdited){
+            http_response_code(200);
+            echo json_encode(['message' => 'Цитата была измененна']);
+            return;
+        }
+
+        http_response_code(400);
+        echo json_encode(['message' => 'Цитата не была изменнена']);
     }
 
     public function getAuthorDetails($id)

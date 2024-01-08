@@ -85,6 +85,24 @@
   max-height: 20px;
 }
 
+.control{
+    background-color: transparent;
+    border: none;
+}
+
+.buttons-wrapper{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.control img{
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+}
+
 .ratting-btn :hover {
   -webkit-transform: translateY(-5px);
   transform: translateY(-5px);
