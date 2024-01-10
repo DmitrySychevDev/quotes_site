@@ -114,10 +114,10 @@ function addAuthor(event) {
     .then(response => response.json())
     .then(data => {
         // Обработка ответа от сервера, например, обновление интерфейса
-        console.log(data);
+        alert(data.message)
     })
     .catch(error => {
-        console.error('Error:', error);
+      alert(error.message)
     });
 }
 

@@ -3,6 +3,7 @@
 include(__DIR__ . "/../../controller.php");
 
 $controller = Controller::getInstance();
+header('Content-Type: application/json');
 
 // Получаем данные из формы
 $name = $_POST['name'];

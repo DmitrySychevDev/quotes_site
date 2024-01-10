@@ -15,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $text = $postParams['text'];
 
     if ($category && $author && $text && $quoteId) {
-        echo 'here';
         $controller->edit_quote($quoteId,$category, $author, $text);
     } else {
         http_response_code(400);

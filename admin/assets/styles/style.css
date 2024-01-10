@@ -85,6 +85,11 @@
   max-height: 20px;
 }
 
+.item-image{
+  width: 200px;
+  height: 200px;
+}
+
 .control{
     background-color: transparent;
     border: none;

@@ -123,9 +123,9 @@ class Controller
         $this->adminView->render_categories_options($data,$selectedId);
     }
 
-    public function get_category_unit_options(){
+    public function get_category_unit_options($selectedId = null){
         $data = $this->model->get_categories_unit();
-        $this->adminView->render_categories_unit_options($data);
+        $this->adminView->render_categories_unit_options($data,$selectedId);
     }
 
     public function add_quote($category, $author, $text){
@@ -176,6 +176,12 @@ class Controller
         return $data;
     } 
 
+    public function get_category_item_by_id($id){
+        $data = $this->model->get_category_item_by_id($id);
+        return $data;
+    } 
+
+
     public function edit_quote($quoteId,$category, $author, $text){
         $isEdited = $this->model->update_quote($quoteId,$category, $author, $text);
         if($isEdited){
@@ -186,6 +192,18 @@ class Controller
 
         http_response_code(400);
         echo json_encode(['message' => 'Цитата не была изменнена']);
+    }
+
+    public function edit_category($id,$name, $description, $category, $image){
+        $isEdited = $this->model->update_category($id,$name,$description,$category, $image);
+        if($isEdited){
+            http_response_code(200);
+            echo json_encode(['message' => 'Категория была измененна']);
+            return;
+        }
+
+        http_response_code(400);
+        echo json_encode(['message' => 'Категория не была изменнена']);
     }
 
     public function getAuthorDetails($id)

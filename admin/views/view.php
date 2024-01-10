@@ -45,10 +45,19 @@
                 echo '<li class="quetes-list__quete" data-category-id="' . $categoriesItem['id'] . '">
                 <div class="quetes-list__item-wrapper">
                   <p>' . $categoriesItem['name'] . '</p>
+                  <div class="buttons-wrapper">
+                  <div class="rating-btn-wrapper">
+                  <button class="control">
+                   <a href="'.$this->BASE_URL.'/admin/categories/'.$categoriesItem['id'].'">
+                     <img src="' . $this->BASE_URL . '/admin/assets/icons/pen.svg" />
+                   </a>
+                  </button>
+                  </div>
                   <div class="rating-btn-wrapper">
                     <button class="ratting-btn" id="btn-' . $categoriesItem['id'] . '" data-category-id="' . $categoriesItem['id'] . '">
                       <img src="' . $this->BASE_URL . '/admin/assets/icons/cross.svg" alt="trash" />
                     </button>
+                  </div>
                   </div>
                 </div>
               </li>';
@@ -73,9 +82,10 @@
 
     }
 
-    public function render_categories_unit_options($data){
+    public function render_categories_unit_options($data, $selectedId = null){
         foreach ($data as $category) {
-            echo '<option value="'.$category['id'].'">'.$category['name'].'</option>';
+          $selected = ($selectedId !== null && $category['id'] == $selectedId) ? 'selected' : '';
+            echo '<option value="'.$category['id'].'" '.$selected .'>'.$category['name'].'</option>';
         }
 
     }
