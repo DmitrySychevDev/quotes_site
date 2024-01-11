@@ -17,5 +17,6 @@ get('/admin/authors/$id', '/authors/editAuthor.php');
 post('/admin/authors/add', '/authors/addAuthor.php');
 post('/admin/quotes/edit', './editQuoteRequest.php');
 post('/admin/categories/edit', './categories/editCategoryRequest.php');
+post('/admin/authors/edit', './authors/editAuthorRequest.php');
 
 any('/404', './views/404.php');

@@ -78,6 +78,8 @@ class Controller
     }
 
     public function delete_author($id){
+        ini_set('display_errors', 1);
+
         $isDeleted = $this->model->delete_author($id);
         if($isDeleted){
             http_response_code(400);
@@ -125,6 +127,9 @@ class Controller
 
     public function get_category_unit_options($selectedId = null){
         $data = $this->model->get_categories_unit();
+        if(isset($selectedId)){
+            $selectedId = $this->model->get_categories_unit_id_by_category_item($selectedId);
+        }
         $this->adminView->render_categories_unit_options($data,$selectedId);
     }
 
@@ -176,6 +181,11 @@ class Controller
         return $data;
     } 
 
+    public function get_author_by_id($id){
+        $data = $this->model->get_author_by_id($id);
+        return $data;
+    }
+
     public function get_category_item_by_id($id){
         $data = $this->model->get_category_item_by_id($id);
         return $data;
@@ -186,25 +196,38 @@ class Controller
         $isEdited = $this->model->update_quote($quoteId,$category, $author, $text);
         if($isEdited){
             http_response_code(200);
-            echo json_encode(['message' => 'Цитата была измененна']);
+            echo json_encode(['message' => 'Цитата была изменена']);
             return;
         }
 
         http_response_code(400);
-        echo json_encode(['message' => 'Цитата не была изменнена']);
+        echo json_encode(['message' => 'Цитата не была изменена']);
     }
 
     public function edit_category($id,$name, $description, $category, $image){
         $isEdited = $this->model->update_category($id,$name,$description,$category, $image);
         if($isEdited){
             http_response_code(200);
-            echo json_encode(['message' => 'Категория была измененна']);
+            echo json_encode(['message' => 'Категория была изменена']);
             return;
         }
 
         http_response_code(400);
-        echo json_encode(['message' => 'Категория не была изменнена']);
+        echo json_encode(['message' => 'Категория не была изменена']);
     }
+
+    public function edit_author($id,$name, $description, $image){
+        $isEdited = $this->model->update_author($id,$name, $description, $image);
+        if($isEdited){
+            http_response_code(200);
+            echo json_encode(['message' => 'Автор был изменен']);
+            return;
+        }
+
+        http_response_code(400);
+        echo json_encode(['message' => 'Автор не был изменен']);
+    }
+
 
     public function getAuthorDetails($id)
     {

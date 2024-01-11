@@ -83,6 +83,7 @@
     }
 
     public function render_categories_unit_options($data, $selectedId = null){
+      echo $selectedId;
         foreach ($data as $category) {
           $selected = ($selectedId !== null && $category['id'] == $selectedId) ? 'selected' : '';
             echo '<option value="'.$category['id'].'" '.$selected .'>'.$category['name'].'</option>';
@@ -97,11 +98,20 @@
             <li class="quetes-list__quete author-block" data-author-id="' . $author['id'] . '">
             <div class="quetes-list__item-wrapper author-container">
               <p class="author__name">' . $author['name'] . '</p>
+              <div class="buttons-wrapper">
               <div class="rating-btn-wrapper">
-                <button class="ratting-btn" id="btn-' . $author['id'] . '" data-author-id="' . $author['id'] . '">
-                  <img src="' . $this->BASE_URL . '/admin/assets/icons/cross.svg" alt="trash" />
-                </button>
+              <button class="control">
+               <a href="'.$this->BASE_URL.'/admin/authors/'.$author['id'].'">
+                 <img src="' . $this->BASE_URL . '/admin/assets/icons/pen.svg" />
+               </a>
+              </button>
               </div>
+              <div class="rating-btn-wrapper">
+              <button class="ratting-btn" id="btn-' . $author['id'] . '" data-author-id="' . $author['id'] . '">
+                <img src="' . $this->BASE_URL . '/admin/assets/icons/cross.svg" alt="trash" />
+              </button>
+            </div>
+            </div>
             </div>
           </li>';
         }

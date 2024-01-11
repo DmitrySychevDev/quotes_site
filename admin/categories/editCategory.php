@@ -20,7 +20,7 @@
 
         $controller = Controller::getInstance();
 
-        $page = 'quotes';
+        $page = 'categories';
         include("./sidebar.php");
 
         $isNew = $id === "new";
@@ -41,7 +41,11 @@
                         <select name="category" class="form-select" aria-placeholder="Выберите категорию цитаты"
                             required>
                             <?php
-                            $controller->get_category_unit_options();
+                            if ($isNew) {
+                                $controller->get_category_unit_options();
+                            } else {
+                                $controller->get_category_unit_options($id);
+                            }
                             ?>
                         </select>
                     </div>

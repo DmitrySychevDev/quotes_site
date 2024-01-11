@@ -166,6 +166,15 @@ class Model
         return $data;
     }
 
+    public function get_categories_unit_id_by_category_item($categoriesItemId)
+    {
+        $sql = 'SELECT fk_kategory_id FROM kategory_item
+        WHERE id =?;';
+        $params = array($categoriesItemId);
+        $data = $this->get_rows_from_sql($sql,$params);
+        return $data[0]['fk_kategory_id'];
+    }
+
     public function get_categories()
     {
         $sql = 'SELECT k.name AS category_name, ki.name AS category_item_name, ki.id AS category_item_id
@@ -280,6 +289,13 @@ class Model
         return $data;
     }
 
+    public function get_author_by_id($id){
+        $sql = 'SELECT * FROM author WHERE id = ? ;';
+        $params = array($id);
+        $data = $this->get_rows_from_sql($sql, $params);
+        return $data;
+    }
+
     public function update_quote($id, $category, $author, $text)
     {
         $sql = "UPDATE quote
@@ -303,6 +319,18 @@ class Model
 
         // Формируем массив параметров в зависимости от наличия изображения
         $params = isset($image) ? array($name, $description, $category, $image, $id) : array($name, $description, $category, $id);
+        $this->execute_insert($sql, $params);
+        return true;
+    }
+
+    public function update_author($id,$name, $description, $image)
+    {
+        $imageUpdate = isset($image) ? ', `image` = ?' : '';
+
+        $sql = "UPDATE `author` 
+        SET `name` = ?, `description` = ? ".$imageUpdate."
+        WHERE id = ?;";
+        $params = isset($image) ? array($name, $description, $image, $id) : array($name, $description, $id);
         $this->execute_insert($sql, $params);
         return true;
     }
